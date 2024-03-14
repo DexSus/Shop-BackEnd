@@ -8,14 +8,18 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+    const ptroduct = {
+        name: req.body.name
+    }
+
     res.status(201).json({
-        message: "post is working"
+        message: "post is working",
+        createdProduct: ptroduct
     });
 })
 
 router.get('/:productId', (req, res) => {
     const id = req.params.productId;
-    console.log(id);
     id === 'special' ? 
         res.status(200).json({
             message: "You discovered the special ID", 

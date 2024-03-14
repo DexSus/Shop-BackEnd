@@ -11,8 +11,19 @@ const orderRoutes = require('./api/routes/orders.js');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(morgan('dev'));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Acept, Authorization');
 
-app.use(morgan('dev'))
+    if(req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, PATCH, DELETE');
+        return res.status(200).json({})
+    }
+
+    next();
+});
 
 // Routes which should handle the request
 app.use('/users', userRoutes);
