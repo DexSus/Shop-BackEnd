@@ -3,10 +3,21 @@ const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const userRoutes = require('./api/routes/users.js');
 const productRoutes = require('./api/routes/products.js');
 const orderRoutes = require('./api/routes/orders.js');
+// mongodb+srv://' + process.env.MONGO_ATLAS_LG + ':' + process.env.MONGO_ATLAS_PW  + '@node-rest-shop.codu4rt.mongodb.net/space-shop?retryWrites=true&w=majority
+
+mongoose.connect('mongodb+srv://' + process.env.MONGO_ATLAS_LG + ':' + process.env.MONGO_ATLAS_PW  + '@node-rest-shop.codu4rt.mongodb.net/space-shop?retryWrites=true&w=majority')
+.then(() => {
+        console.log('MongoDB connected successfully');
+    })
+    .catch(err => {
+        console.error('MongoDB connection error:', err);
+    });
+
 
 const app = express();
 
@@ -21,7 +32,6 @@ app.use((req, res, next) => {
         res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, PATCH, DELETE');
         return res.status(200).json({})
     }
-
     next();
 });
 
